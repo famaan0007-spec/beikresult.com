@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Result Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#f2f4f3;
+}
+.container{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:40px 20px;
+}
+.card{width:360px;}
+.box{
+    background:#f5fff9;
+    border-radius:18px;
+    padding:20px;
+    border:2px solid #c8f0d8;
+}
+.header{
+    background:#0a7a3c;
+    color:white;
+    padding:15px;
+    border-radius:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+.header h2{
+    margin:0;
+    font-size:14px;
+}
+.logo img{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:white;
+}
+label{font-size:13px;font-weight:bold;}
+select,input{
+    width:100%; 
+    box-sizing: border-box;  
+    padding:12px;
+    margin-top:6px;
+    margin-bottom:12px;
+    border-radius:12px;
+    border:2px solid #bdeccc;
+    font-size:14px;
+}
+.note{
+    font-size:12px;
+    color:red;
+    margin-top:-8px;
+    margin-bottom:12px;
+}
+button{
+    width:100%;
+    padding:14px;
+    background:#0a7a3c;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    border:none;
+    border-radius:14px;
+    cursor:pointer;
+}
+button:hover{background:#066432;}
+.footer{
+    text-align:center;
+    font-size:12px;
+    margin-top:12px;
+    color:#555;
+}
+
+/* RESULT */
+.result{
+    display:none;
+    margin-top:20px;
+    background:white;
+    border-radius:18px;
+    border:2px solid #0a7a3c;
+    overflow:hidden;
+}
+.result h3{text-align:center;margin:15px 0;letter-spacing:1px;}
+.detail{padding:20px;}
+.detail p{margin:10px 0;font-size:14px;}
+.detail span{display:block;font-weight:bold;margin-top:4px;}
+.passbar{
+    text-align:center;
+    padding:14px;
+    font-weight:bold;
+    letter-spacing:1px;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<div class="card">
+
+<div class="box">
+    <div class="header">
+        <h2>Karachi Board of Intermediate Education</h2>
+        <div class="logo">
+            <img src="logo.png" alt="Board Logo">
+        </div>
+    </div>
+
+    <label>Group</label>
+    <select>
+        <option>Science General</option>
+        <option>Pre-Medical</option>
+        <option>Pre-Engineering</option>
+        <option>Computer Science</option>
+        <option>Commerce</option>
+        <option>Arts</option>
+    </select>
+
+    <label>Type</label>
+    <select>
+        <option>Annual Part I</option>
+        <option>Annual Part II</option>
+        <option>Private Part I</option>
+        <option>Private Part II</option>
+    </select>
+
+    <label>Roll No</label>
+    <input type="text" id="rollInput" placeholder="e.g., 000000">
+
+    <div class="note">
+        * For detail marks enter your matric roll number
+    </div>
+
+    <label>Matric</label>
+    <input type="text" placeholder="e.g., 000000">
+
+    <button onclick="searchResult()">SEARCH</button>
+
+    <div class="footer">
+        Developed by: <b>PK SOL</b>
+    </div>
+</div>
+
+<!-- RESULT -->
+<div class="result" id="resultBox">
+    <h3>DETAIL</h3>
+    <div class="detail">
+        <p>Name:<span id="name"></span></p>
+        <p>Father Name:<span id="father"></span></p>
+        <p>Roll No:<span id="roll"></span></p>
+        <p>Marks:<span id="marks"></span></p>
+        <p>Grade:<span id="grade"></span></p>
+    </div>
+    <div class="passbar" id="statusBar"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+// Student data
+const data = [
+    { roll:"758033", name:"FATIMA AMAN", father:"RANA AMANULLAH KHAN", marks:464 },
+    { roll:"133058", name:"SYED QAIM ALI BUKHARI", father:"SYED SHAHID ALI BUKHARI", marks:487 },
+    { roll:"654321", name:"SARA IQBAL", father:"MUHAMMAD IQBAL", marks:180 },
+    { roll:"112233", name:"HAMZA RAZA", father:"IRFAN RAZA", marks:410 },
+    { roll:"998877", name:"AYESHA SIDDIQUI", father:"SIDDIQUE AHMED", marks:250 },
+    { roll:"758032", name:"FARRIYA ASHRAF", father:"MUHAMMAD ASHIRAF", marks:326 },
+    { roll:"758031", name:"ESHA MEHRAJ", father:"MERAJ ALI", marks:194 },
+    { roll:"758030", name:"AREEBA FATIMA", father:"SYED ZULQARNAIN SHAH", marks:345 },
+    { roll:"758034", name:"AMNA FARHAN", father:"SYED FARHAN SHAH", marks:367 },
+    { roll:"758035", name:"MAHNUM FAISAL", father:"FAISAL QURAISHI", marks:404 },
+    { roll:"758036", name:"TOOBA MOHSIM", father:"MUHAMMAD MOHSIN", marks:356 }
+
+];
+
+// Search function
+function searchResult(){
+    const rollNo = document.getElementById("rollInput").value.trim();
+    const student = data.find(s => s.roll === rollNo);
+
+    if(!student){
+        alert("Result not found");
+        return;
+    }
+
+    document.getElementById("name").innerText = student.name;
+    document.getElementById("father").innerText = student.father;
+    document.getElementById("roll").innerText = student.roll;
+    document.getElementById("marks").innerText = student.marks;
+
+    if(student.marks >= 200){
+        document.getElementById("grade").innerText = "Pass";
+        document.getElementById("statusBar").innerText = "PASS";
+        document.getElementById("statusBar").style.background = "#0a7a3c";
+    } else {
+        document.getElementById("grade").innerText = "Fail";
+        document.getElementById("statusBar").innerText = "FAIL";
+        document.getElementById("statusBar").style.background = "#b00020";
+    }
+
+    document.getElementById("resultBox").style.display = "block";
+}
+</script>
+
+</body>
+</html>
